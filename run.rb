@@ -4,23 +4,23 @@ def compare value, expected
 end
 
 def override_inject(enumerable)
-  def enumerable.inject(input = nil)
-    result = 0
-    if input.class == Symbol
-      each do |item|
-        result += item
-      end 
-    end
-    return result
+
+  def enumerable.inject(initValue, block)
+    accumulator = initValue
+    
+    each do |element|
+      accumulator = block.call(accumulator, element)
+    end   
+
+    return accumulator
   end
 end
 
 a = []
 a1 = [1, 2, 3]
 
-compare(a.inject(:+), nil)
-compare(a1.inject(:+), 6)
+compare(a1.inject(1) {|sum, number| sum + number}, 7 )
 override_inject(a)
 override_inject(a1)
-compare(a.inject(:+), nil)
-compare(a1.inject(:+), 6)
+proc = Proc.new {|accumulator, number| accumulator - number}
+p a1.inject(1, proc)

@@ -27,4 +27,4 @@ end
 compare(my_array.my_inject(5, &sum_callback), my_array.inject(5, &sum_callback) )
 
 # working on 
-p array_key_value.my_inject({}, &hash_callback)
+# p array_key_value.my_inject({}, &hash_callback)
